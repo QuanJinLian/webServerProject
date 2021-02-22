@@ -3,22 +3,23 @@
 #### ChatServer 클래스 실행  
 
 ### Connection pool설정 -(Servers -> context.xml)  
- <Resource name="jdbc/oracle" auth="Container" type="javax.sql.DataSource"
+#### <Resource name="jdbc/oracle" auth="Container" type="javax.sql.DataSource"
 	    maxActive="10" maxWait="-1" 
 	    username="root" 
 	    password="java" 
 	    driverClassName="com.mysql.cj.jdbc.Driver"
 	    url="jdbc:mysql://localhost:3306/wetalkdb?serverTimezone=UTC"	    
-	    closeMethod="close"/> 
+	    closeMethod="close"/> ####
 
 ### MySQL 테이블 및 초기 데이터  
+  
 CREATE DATABASE  IF NOT EXISTS `wetalkdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;  
 USE `wetalkdb`;  
-####-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)  
-####--  
-####-- Host: localhost    Database: wetalkdb  
-####-- ------------------------------------------------------  
-####-- Server version	8.0.22  
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)  
+--  
+-- Host: localhost    Database: wetalkdb  
+-- ------------------------------------------------------  
+-- Server version	8.0.22  
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;  
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;  
@@ -31,9 +32,9 @@ USE `wetalkdb`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;  
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;  
 
-####--  
-####-- Table structure for table `friendlist`  
-####--  
+--  
+-- Table structure for table `friendlist`  
+--  
 
 DROP TABLE IF EXISTS `friendlist`;  
 /*!40101 SET @saved_cs_client     = @@character_set_client */;  
@@ -44,9 +45,9 @@ CREATE TABLE `friendlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
   
-####--
-####-- Dumping data for table `friendlist`  
-####--
+--
+-- Dumping data for table `friendlist`  
+--
 
 LOCK TABLES `friendlist` WRITE;  
 /*!40000 ALTER TABLE `friendlist` DISABLE KEYS */;  
@@ -54,9 +55,9 @@ INSERT INTO `friendlist` VALUES ('eeee','iiii&ddd@dd.com&wwww&uuu@uu.com'),('iii
 /*!40000 ALTER TABLE `friendlist` ENABLE KEYS */;  
 UNLOCK TABLES;  
 
-####--  
-####-- Table structure for table `user`  
-####--  
+--  
+-- Table structure for table `user`  
+--  
   
 DROP TABLE IF EXISTS `user`;  
 /*!40101 SET @saved_cs_client     = @@character_set_client */;  
@@ -71,9 +72,9 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;  
 /*!40101 SET character_set_client = @saved_cs_client */;  
   
-####--
-####-- Dumping data for table `user`
-####--
+--
+-- Dumping data for table `user`
+--
   
 LOCK TABLES `user` WRITE;  
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;  
