@@ -11,7 +11,7 @@
 	    password="java" 
 	    driverClassName="com.mysql.cj.jdbc.Driver"
 	    url="jdbc:mysql://localhost:3306/wetalkdb?serverTimezone=UTC"	    
-	    closeMethod="close"/> ####
+	    closeMethod="close"/>
 
 ### MySQL 테이블 및 초기 데이터  
   
