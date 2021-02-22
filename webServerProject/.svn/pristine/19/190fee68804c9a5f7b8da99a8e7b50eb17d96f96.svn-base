@@ -1,0 +1,93 @@
+package socketServer;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.text.StyleConstants.CharacterConstants;
+
+import com.example.wetalkclient.bean.ChatData;
+import com.example.wetalkclient.bean.ChatData.MSG;
+
+
+public class ChatServer {
+	private static Map<String, ClientHandler> connHandler = new HashMap<String, ClientHandler>();
+	
+	private boolean run = true ;
+	private ServerSocket server;
+	private Socket socket = null;
+	private ObjectInputStream in = null;
+	
+	public ChatServer(int port) {
+		try {
+			server = new ServerSocket(port);
+			System.out.println("서버 준비 완료");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+			while(run) {
+				try {
+					socket = server.accept();
+					System.out.println("accepte 신호 받음 socket = "+socket.toString());
+					InputStream input = socket.getInputStream();
+					System.out.println(input+"input 생성");
+					if(input != null) {
+						in =new ObjectInputStream(input);
+						System.out.println(in+"in 생성");
+					}
+					Object obj = in.readObject();
+					System.out.println("obj 읽음");
+					if(obj instanceof ChatData.ID) {
+						ChatData.ID user = (ChatData.ID)obj;
+						String userId = user.getUserId();
+						System.out.println("아이디 -- "+userId);
+						ClientHandler ch = new ClientHandler(userId, socket,in);
+						connHandler.put(userId, ch);
+						ch.start();
+					}
+					
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		
+	}
+	public void removeConnHandler(String id) {
+		ClientHandler clientHandler = connHandler.remove(id);
+		if(clientHandler != null) {
+			clientHandler.closeConn();
+		}
+	}
+	
+	public static void sendMsg(ChatData.MSG msg) {
+		String toId = msg.getToId();
+		String fromId = msg.getFromId();
+		ClientHandler clientHandler1 = connHandler.get(toId);
+		ClientHandler clientHandler2 = connHandler.get(fromId);
+		if(clientHandler1 != null && clientHandler1.isOnline()) {
+			clientHandler1.sendMsg(msg);
+		}else if(clientHandler1 != null && !clientHandler1.isOnline()) {
+			connHandler.remove(toId);
+			// 오프라인 메세지 저장소로 간다
+		}else if(clientHandler2 != null && clientHandler2.isOnline()) {
+			clientHandler2.sendMsg(msg);
+		}else if(clientHandler2 != null && !clientHandler2.isOnline()) {
+			connHandler.remove(fromId);
+			// 오프라인 메세지 저장소로 간다
+		}else {  // 핸들러 자체가 없을때 
+			// 오프라인 메세지 저장소로 간다
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		new ChatServer(8888);
+	}
+	
+}

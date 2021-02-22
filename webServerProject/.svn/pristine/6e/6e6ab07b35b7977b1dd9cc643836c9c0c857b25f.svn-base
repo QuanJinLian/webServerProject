@@ -1,0 +1,132 @@
+package socketServer;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import com.example.wetalkclient.bean.ChatData;
+
+
+public class ClientHandler extends Thread {
+	private Socket socket;
+	private BufferedReader i;
+	private PrintWriter o;
+	private ChatServer server;
+	private String userId;
+	private ObjectInputStream in;
+	private ObjectOutputStream os;
+	private boolean run = true;
+	
+	
+	public ClientHandler (String userId, Socket socket, ObjectInputStream in) throws IOException {
+		this.userId = userId;
+		this.socket = socket;
+		this.in = in;
+		os = new ObjectOutputStream(socket.getOutputStream());
+//		o = new PrintWriter(socket.getOutputStream());
+	}
+	
+
+	public void run() {
+		System.out.println("핸들러 스레드 시작---"+in.toString());
+		while (run) {
+			try {
+				Object obj = in.readObject();
+				System.out.println("obj 읽기 ---"+obj.toString());
+				if(obj instanceof ChatData.MSG) {
+					ChatData.MSG msg = (ChatData.MSG)obj;
+					System.out.println(msg.getFromId()+"에게서 받은 메세지--"+msg.getMsg());
+					System.out.println("타입--"+msg.getType());
+					switch (msg.getType()) {
+					case CHATTING_MSG:
+						System.out.println("send");
+						server.sendMsg(msg);
+						break;
+					case CHATTING_IMG:
+						// 이미지 보낸다
+						break;
+					case OFFLINE_MSG:
+						// 오프라인 메세지 보낸다
+						break;
+					case ADD_FRIEND:
+						// 친구 추가 신호를 보낸다
+						break;
+					case ADD_AGREE:
+						// 친구 추가 동의 신호를 보낸다
+						break;
+					case LOGOUT:
+						// 로그아웃
+						break;
+
+					default:
+						break;
+					}
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void sendMsg(ChatData.MSG msg) {
+		try {
+			os.writeObject(msg);
+			os.flush();
+//			os.reset();
+////			byte [] bytes = toByteArray(msg);
+//			o.println(toByteArray(msg));
+//			o.flush();
+//			System.out.println("toByteArray(msg)---- "+toByteArray(msg));
+			System.out.println("FROM "+msg.getFromId()+"- To->"+msg.getToId()+" 내용은 :"+ msg.getMsg()+"메세지 보냄");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void closeConn() {
+		run = false;
+	}
+	
+	public void closeSocket() {
+		try {
+			in.close();
+			os.close();
+//			o.close();
+			socket.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	  public byte[] toByteArray (Object obj) {      
+		           byte[] bytes = null;      
+		           ByteArrayOutputStream bos = new ByteArrayOutputStream();      
+		           try {        
+		               ObjectOutputStream oos = new ObjectOutputStream(bos);         
+		               oos.writeObject(obj);        
+		              oos.flush();         
+		               bytes = bos.toByteArray ();      
+		               oos.close();         
+		               bos.close();        
+		           } catch (IOException ex) {        
+		               ex.printStackTrace();   
+		           }      
+		           return bytes;    
+	}  
+	
+	public boolean isOnline() {
+		boolean online = true;
+		try {
+			socket.sendUrgentData(44);
+		}catch (Exception e) {
+			online = false;
+		}
+		return online;
+	}
+	
+
+}
+

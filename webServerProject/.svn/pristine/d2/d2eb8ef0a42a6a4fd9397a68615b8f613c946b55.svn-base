@@ -1,0 +1,45 @@
+package webServer;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import controls.Controller;
+import dao.UserDao;
+import dto.User;
+import prepare.Component;
+import prepare.DataBinding;
+
+@Component("/webServer/getFriendList.do")
+public class getFriendList implements Controller,DataBinding  {
+	
+	private UserDao userDao;
+	public getFriendList setAdminDao(UserDao userDao) {
+		this.userDao = userDao;
+		return this;
+	}
+	@Override
+	public Object[] getDataBinders() {
+		return new Object[] {
+				"userInfo", User.class
+		};
+	}
+	@Override
+	public String execute(Map<String, Object> model) throws Exception {
+		System.out.println("getFriendList 여기로 들어옴");
+		User user = (User)model.get("userInfo");
+		String friendList = userDao.getFriendList(user.getId());
+		ArrayList<User> list = new ArrayList<User>();
+		if(friendList.length()>0) {
+			String [] friends = friendList.split("&");
+			for(String friend : friends) {
+				list.add(userDao.getUserInfo(friend));
+			}
+			model.put("result", 1);
+			model.put("list", list);
+		}else {
+			model.put("result", -1);
+		}
+		return "/Jsp/getFriendListResult.jsp";
+	}
+
+}
