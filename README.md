@@ -3,8 +3,7 @@
 #### ChatServer 클래스 실행  
 
 ### Connection pool설정 -(Servers -> context.xml)  
-####  
-<Resource name="jdbc/oracle" auth="Container" type="javax.sql.DataSource"
+####<Resource name="jdbc/oracle" auth="Container" type="javax.sql.DataSource"
 	    maxActive="10" maxWait="-1" 
 	    username="root" 
 	    password="java" 
