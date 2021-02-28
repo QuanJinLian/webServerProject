@@ -1,6 +1,6 @@
 # webServerProject  
-#### tomcat 실행  
-#### ChatServer 클래스 실행  
+#### 1. tomcat 실행  
+#### 2. ChatServer 클래스 실행  
 
 ### Connection pool설정 -(Servers -> context.xml)  
 	   <Resource 
