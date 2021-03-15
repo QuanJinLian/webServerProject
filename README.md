@@ -1,4 +1,4 @@
-# webServerProject  
+# WeTalk Server  
 #### 1. tomcat 실행  
 #### 2. ChatServer 클래스 실행  
 
