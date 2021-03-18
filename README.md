@@ -2,11 +2,11 @@
 #### WeTalk Server 코드입니다. 서버 실행 후 클라이언트 실행 바랍니다.
 ##### 클라이언트 코드 주소 : https://github.com/QuanJinLian/weTalkClient  
 
-### 실행해야 할 것들
+### ★실행해야 할 것들
 #### 1. tomcat 실행  
 #### 2. ChatServer 클래스 실행  
   
-## 사전 작업  
+## ★사전 작업  
   
 ### 1. Connection pool설정 -(Servers -> context.xml)  
 	   <Resource 
