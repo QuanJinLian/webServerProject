@@ -1,13 +1,14 @@
-# WeTalk Server 코드입니다. 서버 실행 후 클라이언트 실행 바랍니다.
+# WeTalk Server   
+#### WeTalk Server 코드입니다. 서버 실행 후 클라이언트 실행 바랍니다.
 ##### 클라이언트 코드 주소 : https://github.com/QuanJinLian/weTalkClient  
 
-## 실행해야 할 것들
+### 실행해야 할 것들
 #### 1. tomcat 실행  
 #### 2. ChatServer 클래스 실행  
   
 ## 사전 작업  
   
-### Connection pool설정 -(Servers -> context.xml)  
+### 1. Connection pool설정 -(Servers -> context.xml)  
 	   <Resource 
 	    name="jdbc/oracle" auth="Container" 
 	    type="javax.sql.DataSource"
@@ -18,7 +19,7 @@
 	    url="jdbc:mysql://localhost:3306/wetalkdb?serverTimezone=UTC"	    
 	    closeMethod="close"/>
 
-### MySQL 테이블 및 초기 데이터  
+### 2. MySQL 테이블 및 초기 데이터  
   
 	CREATE DATABASE  IF NOT EXISTS `wetalkdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;  
 	USE `wetalkdb`;  
